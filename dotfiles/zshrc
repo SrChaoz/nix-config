@@ -1,0 +1,14 @@
+# Managed by Home Manager. Package paths are substituted at build time.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH="@oh_my_zsh@/share/oh-my-zsh"
+ZSH_THEME=""
+plugins=(git)
+source "$ZSH/oh-my-zsh.sh"
+
+source "@powerlevel10k@/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
+[[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+source "@zsh_autosuggestions@/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "@zsh_syntax_highlighting@/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

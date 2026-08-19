@@ -1,0 +1,19 @@
+{
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
+  "workbench.iconTheme": "material-icon-theme",
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "git.enableSmartCommit": true,
+  "files.autoSave": "afterDelay",
+  "chat.viewSessions.orientation": "stacked",
+  "explorer.compactFolders": false,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.unicodeHighlight.invisibleCharacters": false
+}
