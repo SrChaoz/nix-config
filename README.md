@@ -34,8 +34,12 @@ adicionales documentados abajo.
 
    ```bash
    nix run github:nix-community/home-manager -- switch --flake .#srchaoz --dry-run
-   nix run github:nix-community/home-manager -- switch --flake .#srchaoz
+   nix run github:nix-community/home-manager -- switch -b pre-nix-config --flake .#srchaoz
    ```
+
+   La opción `-b pre-nix-config` conserva cualquier archivo inicial de Fedora
+   que Home Manager vaya a reemplazar, por ejemplo `.bashrc`, como
+   `.bashrc.pre-nix-config`.
 
 4. Cierra sesión y vuelve a entrar en GNOME. Esto permite que GNOME Shell
    redescubra las extensiones, el tema y los iconos de Nix/Home Manager.
@@ -127,7 +131,7 @@ Para actualizar las entradas del flake y aplicar una nueva generación:
 ```bash
 nix flake update
 nix flake check
-nix run github:nix-community/home-manager -- switch --flake .#srchaoz
+nix run github:nix-community/home-manager -- switch -b pre-nix-config --flake .#srchaoz
 ```
 
 Revisa y versiona `flake.lock` después de actualizarlo. Para volver a una

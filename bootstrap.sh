@@ -21,5 +21,5 @@ La configuración pasó `nix flake check`.
 No se ejecutó `home-manager switch` por diseño.
 
 Revísala y, cuando quieras aplicarla, ejecuta:
-  nix run github:nix-community/home-manager -- switch --flake .#srchaoz
+  nix run github:nix-community/home-manager -- switch -b pre-nix-config --flake .#srchaoz
 EOF
