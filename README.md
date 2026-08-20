@@ -19,7 +19,7 @@ adicionales documentados abajo.
    sudo systemctl enable --now nix-daemon
    ```
 
-2. Cierra y abre una terminal, clona el repositorio y valida el flake.
+2. Cierra y abre una terminal, clona el repositorio y ejecuta el bootstrap.
 
    ```bash
    git clone https://github.com/SrChaoz/nix-config.git
@@ -27,22 +27,49 @@ adicionales documentados abajo.
    ./bootstrap.sh
    ```
 
-   `bootstrap.sh` genera/verifica las entradas del flake y ejecuta
-   `nix flake check`. Deliberadamente **no** aplica la configuración.
-
-3. Revisa el plan opcionalmente y aplica Home Manager.
-
-   ```bash
-   nix run github:nix-community/home-manager -- switch --flake .#srchaoz --dry-run
-   nix run github:nix-community/home-manager -- switch -b pre-nix-config --flake .#srchaoz
-   ```
-
-   La opción `-b pre-nix-config` conserva cualquier archivo inicial de Fedora
-   que Home Manager vaya a reemplazar, por ejemplo `.bashrc`, como
+   El script pregunta qué perfil usar, solicita opcionalmente una identidad de
+   Git local y, tras `nix flake check`, pide confirmación para aplicar Home
+   Manager. La opción `-b pre-nix-config` conserva cualquier archivo inicial
+   de Fedora que vaya a reemplazarse, por ejemplo `.bashrc`, como
    `.bashrc.pre-nix-config`.
 
-4. Cierra sesión y vuelve a entrar en GNOME. Esto permite que GNOME Shell
+3. Cierra sesión y vuelve a entrar en GNOME. Esto permite que GNOME Shell
    redescubra las extensiones, el tema y los iconos de Nix/Home Manager.
+
+## Perfiles
+
+El bootstrap ofrece dos opciones:
+
+- `full`: perfil predeterminado. Incluye Chrome, Ghostty, VS Code, PostgreSQL,
+  pgAdmin, Docker/Compose, Node.js, GitHub CLI, Discord y GNOME Tweaks, además
+  de todo lo incluido en el perfil mínimo.
+- `minimal`: mantiene GNOME, el fondo, Colloid, las extensiones, Git, Zsh,
+  Powerlevel10k y los dotfiles; no instala las aplicaciones de escritorio y
+  desarrollo del perfil completo.
+
+También se pueden aplicar manualmente con `.#srchaoz-full` y
+`.#srchaoz-minimal`:
+
+```bash
+nix run github:nix-community/home-manager -- switch -b pre-nix-config --flake .#srchaoz-full
+```
+
+## Identidad y credenciales Git
+
+El repositorio no guarda contraseñas, tokens ni la identidad personal de Git.
+En la primera ejecución interactiva, el bootstrap pregunta nombre y correo y
+los guarda con permisos privados en `~/.config/git/user.conf`. `.gitconfig`
+versionado solo lo incluye.
+
+Para autenticarte ante GitHub en una instalación nueva usa:
+
+```bash
+gh auth login
+```
+
+No añadas tokens, claves SSH, dumps de bases de datos ni archivos de proyecto
+al repositorio. Si una versión antigua del historial ya contiene tu correo,
+quitarlo del archivo actual no lo elimina de commits ya publicados.
 
 ## Después de Home Manager
 
@@ -102,6 +129,15 @@ la aceleración 3D, instala/actualiza las Guest Additions o herramientas del
 hipervisor y asigna suficiente memoria de vídeo. Si la GPU virtual no expone
 OpenGL compatible, Ghostty no puede renderizar: usa Ptyxis temporalmente para
 probar la configuración y verifica Ghostty luego en el equipo físico.
+
+### Iconos Colloid
+
+Colloid-Dark contiene enlaces simbólicos hacia Colloid-Light. Ambos temas de
+iconos se incluyen y se instalan juntos; omitir Colloid-Light rompe esos
+enlaces y provoca que GNOME use iconos de respaldo de Adwaita. Después de
+actualizar a una versión que incluya ambos temas, aplica Home Manager y cierra
+sesión de GNOME. Algunos iconos que Colloid no proporciona siguen usando
+Adwaita por diseño.
 
 ### Docker
 
@@ -177,7 +213,7 @@ anterior desde su ruta mostrada.
 
 - Los assets de Colloid y el fondo se guardan dentro del repositorio para no
   depender de una descarga no fijada. El repositorio contiene alrededor de
-  80 MB de imágenes y tema.
+  185 MB de imágenes y tema.
 - Las aplicaciones marcadas como no libres, como Chrome y VS Code, están
   permitidas explícitamente en `home.nix`.
 - Antes de usar esta configuración en otra cuenta o máquina, ajusta

@@ -1,26 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, profile ? "full", ... }:
 
-{
-  imports = [ ./modules/gnome.nix ];
-
-  home.username = "srchaoz";
-  home.homeDirectory = "/home/srchaoz";
-  home.stateVersion = "26.05";
-
-  nixpkgs.config.allowUnfree = true;
-
-  home.packages = with pkgs; [
-    google-chrome
-    ghostty
-    vscode
-    postgresql
-    pgadmin4
-    docker
-    docker-compose
-    nodejs_22
-    gh
-    discord
-    gnome-tweaks
+let
+  basePackages = with pkgs; [
     git
     zsh
     oh-my-zsh
@@ -39,6 +20,30 @@
     gnomeExtensions.dash-to-dock
   ];
 
+  fullPackages = with pkgs; [
+    google-chrome
+    ghostty
+    vscode
+    postgresql
+    pgadmin4
+    docker
+    docker-compose
+    nodejs_22
+    gh
+    discord
+    gnome-tweaks
+  ];
+in {
+  imports = [ ./modules/gnome.nix ];
+
+  home.username = "srchaoz";
+  home.homeDirectory = "/home/srchaoz";
+  home.stateVersion = "26.05";
+
+  nixpkgs.config.allowUnfree = true;
+
+  home.packages = basePackages ++ lib.optionals (profile == "full") fullPackages;
+
   home.file = {
     ".bashrc".source = ./dotfiles/bashrc;
     ".local/bin/env" = {
@@ -56,6 +61,10 @@
     ".local/share/backgrounds/current.png".source = ./wallpapers/current.png;
     ".local/share/icons/Colloid-Dark" = {
       source = ./themes/Colloid-Dark-icons;
+      recursive = true;
+    };
+    ".local/share/icons/Colloid-Light" = {
+      source = ./themes/Colloid-Light-icons;
       recursive = true;
     };
     ".themes/Colloid-Dark" = {

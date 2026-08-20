@@ -1,6 +1,5 @@
-[user]
-	email = mateorubencho@gmail.com
-	name = SrChaoz
+[include]
+	path = ~/.config/git/user.conf
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential

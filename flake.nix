@@ -16,10 +16,17 @@
         inherit system;
         config.allowUnfree = true;
       };
-    in {
-      homeConfigurations.srchaoz = home-manager.lib.homeManagerConfiguration {
+      mkHome = profile: home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
+        extraSpecialArgs = { inherit profile; };
+      };
+    in {
+      homeConfigurations = {
+        # Compatibility alias: the normal profile is the complete one.
+        srchaoz = mkHome "full";
+        srchaoz-full = mkHome "full";
+        srchaoz-minimal = mkHome "minimal";
       };
     };
 }
