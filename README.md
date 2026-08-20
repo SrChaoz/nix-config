@@ -108,6 +108,14 @@ estas extensiones:
 - Apps Menu
 - Dash to Dock
 
+Apps Menu es una extensión oficial distribuida por Fedora, pero no está
+empaquetada como atributo en la versión de Nixpkgs fijada por este flake.
+Instálala una vez con DNF; dconf la habilitará junto al resto:
+
+```bash
+sudo dnf install gnome-shell-extension-apps-menu
+```
+
 Si una extensión no aparece después de reiniciar la sesión, abre la aplicación
 Extensions y comprueba que GNOME Shell la detectó. La compatibilidad depende
 de la versión de GNOME Shell instalada por Fedora.

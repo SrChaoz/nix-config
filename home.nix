@@ -36,7 +36,6 @@
     gnomeExtensions.compact-top-bar
     gnomeExtensions.user-themes
     gnomeExtensions.compiz-alike-magic-lamp-effect
-    gnomeExtensions.apps-menu
     gnomeExtensions.dash-to-dock
   ];
 
