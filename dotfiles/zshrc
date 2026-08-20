@@ -8,9 +8,15 @@ ZSH_THEME=""
 plugins=(git)
 source "$ZSH/oh-my-zsh.sh"
 
-if [[ -r /etc/pki/tls/certs/ca-bundle.crt ]]; then
-  export GIT_SSL_CAINFO=/etc/pki/tls/certs/ca-bundle.crt
-fi
+for nix_config_ca_bundle in \
+  /etc/pki/tls/certs/ca-bundle.crt \
+  /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem; do
+  if [[ -r "$nix_config_ca_bundle" ]]; then
+    export GIT_SSL_CAINFO="$nix_config_ca_bundle"
+    break
+  fi
+done
+unset nix_config_ca_bundle
 
 source "@powerlevel10k@/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
 [[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"

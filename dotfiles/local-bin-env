@@ -5,7 +5,13 @@ case ":${PATH}:" in
   *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
-# Nix's Git uses this Fedora-managed CA bundle for HTTPS verification.
-if [ -r /etc/pki/tls/certs/ca-bundle.crt ]; then
-  export GIT_SSL_CAINFO=/etc/pki/tls/certs/ca-bundle.crt
-fi
+# Nix's Git uses a Fedora-managed CA bundle for HTTPS verification.
+for nix_config_ca_bundle in \
+  /etc/pki/tls/certs/ca-bundle.crt \
+  /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem; do
+  if [ -r "$nix_config_ca_bundle" ]; then
+    export GIT_SSL_CAINFO="$nix_config_ca_bundle"
+    break
+  fi
+done
+unset nix_config_ca_bundle
