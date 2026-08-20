@@ -68,6 +68,28 @@ xargs -r -n 1 code --install-extension < dotfiles/vscode/extensions.txt
 El archivo contiene únicamente las extensiones aprobadas de uso permanente;
 no incluye PowerShell, ChatGPT, SonarLint ni Ollama Copilot.
 
+### Zsh como shell principal
+
+Home Manager instala y configura Zsh, pero no puede modificar el shell de
+inicio registrado por Fedora. Si se quiere usar Zsh como shell principal:
+
+```bash
+sudo dnf install zsh
+chsh -s /usr/bin/zsh
+```
+
+Cierra sesión y vuelve a entrar después de cambiarlo. El paquete RPM solo se
+usa como shell de login reconocido por PAM; el resto de la configuración de
+Zsh procede de Home Manager.
+
+### Ghostty en máquinas virtuales
+
+Ghostty requiere un contexto OpenGL proporcionado por GTK. En una VM, activa
+la aceleración 3D, instala/actualiza las Guest Additions o herramientas del
+hipervisor y asigna suficiente memoria de vídeo. Si la GPU virtual no expone
+OpenGL compatible, Ghostty no puede renderizar: usa Ptyxis temporalmente para
+probar la configuración y verifica Ghostty luego en el equipo físico.
+
 ### Docker
 
 El paquete Nix aporta el cliente de Docker y Compose, pero Home Manager no
