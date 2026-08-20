@@ -82,6 +82,19 @@ Cierra sesión y vuelve a entrar después de cambiarlo. El paquete RPM solo se
 usa como shell de login reconocido por PAM; el resto de la configuración de
 Zsh procede de Home Manager.
 
+### Certificados HTTPS para Git
+
+En Fedora, los shells del repositorio apuntan Git al bundle de certificados
+gestionado por el sistema. Si se prueba una versión anterior de la
+configuración y `git pull` informa un error de certificado, úsalo una vez con:
+
+```bash
+/usr/bin/git pull
+```
+
+Después actualiza y aplica esta configuración para que el Git de Nix herede
+el bundle correcto.
+
 ### Ghostty en máquinas virtuales
 
 Ghostty requiere un contexto OpenGL proporcionado por GTK. En una VM, activa

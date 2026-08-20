@@ -8,6 +8,10 @@ ZSH_THEME=""
 plugins=(git)
 source "$ZSH/oh-my-zsh.sh"
 
+if [[ -r /etc/pki/tls/certs/ca-bundle.crt ]]; then
+  export GIT_SSL_CAINFO=/etc/pki/tls/certs/ca-bundle.crt
+fi
+
 source "@powerlevel10k@/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
 [[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 source "@zsh_autosuggestions@/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
